@@ -6,18 +6,18 @@ public class Toy implements Toys{
     private static int count;
     private int id;
     private String name;
-    private ToyType toyType;
-    private AgeRating ageRating;
-    private Material material;
+    private String toyType;
+    private String ageRating;
+    private String material;
     private int length;
     private int width;
     private int height;
     private String manufacturer;
     private double cost;
 
-    public Toy(String name, ToyType toyType, AgeRating ageRating, Material material,
+    public Toy(int id, String name, String toyType, String ageRating, String material,
                int length, int width, int height, String manufacturer, double cost) {
-        this.id = count++;
+        this.id = id;
         this.name = name;
         this.toyType = toyType;
         this.ageRating = ageRating;
@@ -29,6 +29,15 @@ public class Toy implements Toys{
         this.cost = cost;
     }
 
+    public Toy(String name, String toyType, String ageRating, String material,
+               int length, int width, int height, String manufacturer, double cost) {
+        this(count++, name, toyType, ageRating, material, length, width, height, manufacturer, cost);
+    }
+
+    public Toy() {
+
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -37,15 +46,15 @@ public class Toy implements Toys{
         this.name = name;
     }
 
-    public void setToyType(ToyType toyType) {
+    public void setToyType(String string) {
         this.toyType = toyType;
     }
 
-    public void setAgeRating(AgeRating ageRating) {
+    public void setAgeRating(String ageRating) {
         this.ageRating = ageRating;
     }
 
-    public void setMaterial(Material material) {
+    public void setMaterial(String material) {
         this.material = material;
     }
 
@@ -73,19 +82,19 @@ public class Toy implements Toys{
         return id;
     }
 
-    public String getName() {
+    public java.lang.String getName() {
         return name;
     }
 
-    public ToyType getToyType() {
+    public String getToyType() {
         return toyType;
     }
 
-    public AgeRating getAgeRating() {
+    public String getAgeRating() {
         return ageRating;
     }
 
-    public Material getMaterial() {
+    public String getMaterial() {
         return material;
     }
 
@@ -101,7 +110,7 @@ public class Toy implements Toys{
         return height;
     }
 
-    public String getManufacturer() {
+    public java.lang.String getManufacturer() {
         return manufacturer;
     }
 
@@ -110,7 +119,7 @@ public class Toy implements Toys{
     }
 
     @Override
-    public String toString() {
+    public java.lang.String toString() {
         StringBuilder output = new StringBuilder();
         output.append("Наименование: '" + name + '\'' + '\n');
         output.append("Тип: " + toyType + '\n');
@@ -118,7 +127,7 @@ public class Toy implements Toys{
         output.append("Материал: " + material + '\n');
         output.append("Размеры (ДхШхВ): " + length + 'x' + width + 'x' + height + '\n');
         output.append("Производитель: '" + manufacturer + '\'' + '\n');
-        output.append("Стоимость: " + cost + '\n');
+        output.append(String.format("Стоимость: %.2f", cost) + "руб." + '\n');
         return output.toString();
     }
 

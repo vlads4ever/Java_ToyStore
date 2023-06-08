@@ -1,81 +1,26 @@
 package model.store;
 
 import model.toy.Toys;
+import model.toy.comparators.CompareByName;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ToyStore<E extends Toys> {
-    private List<E> shop;
-    private List<E> warehouse;
+
+    private Set<E> toysSet;
+    private List<Procurement<E>> procurementList;
 
     public ToyStore() {
-        this.shop = new ArrayList<>();
-        this.warehouse = new ArrayList<>();
+        this.toysSet = new TreeSet<>(new CompareByName<E>());
+        this.procurementList = new ArrayList<>();
     }
 
-    public String addToShop(E toy){
-        this.shop.add(toy);
-        return "Товар выставлен на продажу.";
+    public void addNewToy(E toy){
+        this.toysSet.add(toy);
     }
 
-    public String removeFromShop(int id){
-        for (E toy: this.shop) {
-            if (toy.getId() == id) {
-                this.shop.remove(toy);
-                return "Товар снят с продажи.";
-            }
-        }
-        return "Товар не обнаружен";
-    }
-
-    public String addToWarehouse(E toy){
-        this.warehouse.add(toy);
-        return "Товар размещен на складе";
-    }
-
-    public String removeFromWarehouse(int id){
-        for (E toy: this.warehouse) {
-            if (toy.getId() == id) {
-                this.shop.remove(toy);
-                return "Товар удален со склада";
-            }
-        }
-        return "Товар не обнаружен";
-    }
-
-    private int getQuantityAt(List<E> list, E toy){
-        int quantity = 0;
-        for (E item: list) {
-            if (item.equals(toy)) {
-                quantity++;
-            }
-        }
-        return quantity;
-    }
-
-    public int toyQuantityAtShop(E toy){
-        return getQuantityAt(this.shop, toy);
-    }
-
-    public int toyQuantityAtWarehouse(E toy){
-        return getQuantityAt(this.warehouse, toy);
-    }
-
-    public String getToyInfo(int id){
-        E toy = this.getToyAt(this.shop, id);
-        if (toy != null){
-            return toy.toString();
-        }
-        toy = this.getToyAt(this.warehouse, id);
-        if (toy != null){
-            return toy.toString();
-        }
-        return "Товар не обнаружен";
-    }
-
-    private E getToyAt(List<E> list, int id){
-        for (E toy: list) {
+    public E getToy(int id){
+        for (E toy : this.toysSet) {
             if (toy.getId() == id) {
                 return toy;
             }
@@ -83,27 +28,66 @@ public class ToyStore<E extends Toys> {
         return null;
     }
 
-    public String moveFromShopToWarehouse(int id){
-        E toy = this.getToyAt(this.shop, id);
-        if (toy != null) {
-            this.removeFromShop(id);
-            return this.addToWarehouse(toy);
-        }
-        return "Товар не обнаружен";
+    public Set<E> getToysSet(){
+        return this.toysSet;
     }
 
-    public String moveFromWarehouseToShop(int id){
-        E toy = this.getToyAt(this.warehouse, id);
-        if (toy != null) {
-            this.removeFromWarehouse(id);
-            return this.addToShop(toy);
-        }
-        return "Товар не обнаружен";
+    public void addNewProcurement(Procurement<E> procurement){
+        this.procurementList.add(procurement);
     }
 
-    public String generalReport(){
+    public String getAvailableToyInfo(int id){
         StringBuilder output = new StringBuilder();
-        // TODO: Сделать общий отчет по игрушкам на складе и на полках
+        int shopQuantity = 0;
+        int warehouseQuantity = 0;
+        String toyName = "";
+        double toyCost = 0;
+        for (Procurement<E> procurement: this.procurementList) {
+            if (procurement.getToy().getId() == id) {
+                shopQuantity += procurement.getShopQuantity();
+                warehouseQuantity += procurement.getWarehouseQuantity();
+                toyName = procurement.getToy().getName();
+                toyCost = procurement.getToy().getCost();
+            }
+        }
+        if (toyName != "") {
+            if (shopQuantity != 0 || warehouseQuantity != 0) {
+                output.append(String.format("id: %d %s %.2f",
+                        id, toyName, toyCost) + "руб." + "\n");
+                output.append("В магазине: " + shopQuantity + "шт." + "\n");
+                output.append("На складе: " + warehouseQuantity + "шт." + "\n");
+            } else {
+                output.append("Товар отсутствует.");
+            }
+
+        } else {
+            output.append("Товар с таким id отсутствует.");
+        }
         return output.toString();
+    }
+
+    public String getAvailableToys(){
+        StringBuilder output = new StringBuilder();
+        if (this.toysSet.size() != 0) {
+            for (E toy: this.toysSet) {
+                String toyInfo = this.getAvailableToyInfo(toy.getId());
+                if (!toyInfo.equals("Товар отсутствует.")) {
+                    output.append(toyInfo + "\n");
+                }
+            }
+        } else {
+            output.append("Товары отстутсвуют.");
+        }
+        return output.toString();
+    }
+
+    public String buyFromShop(int id){
+        //TODO: Продать с полок магазина
+        return "";
+    }
+
+    public String buyFromWarehouse(int id){
+        //TODO: Продать со склада
+        return "";
     }
 }
