@@ -3,6 +3,9 @@ package model;
 import model.store.Procurement;
 import model.store.ToyStore;
 import model.toy.*;
+import model.toy.enumerables.AgeRating;
+import model.toy.enumerables.Material;
+import model.toy.enumerables.ToyType;
 
 
 import java.util.Set;
@@ -14,7 +17,7 @@ public class Service {
         this.toyStore = new ToyStore<>();
     }
 
-    public java.lang.String addNewToy(String name, String toyType, String ageRating, String material,
+    public java.lang.String addNewToy(String name, ToyType toyType, AgeRating ageRating, Material material,
                                       int length, int width, int height, String manufacturer, double cost){
         Toy toy = new Toy(name, toyType, ageRating, material, length, width, height, manufacturer, cost);
         this.toyStore.addNewToy(toy);

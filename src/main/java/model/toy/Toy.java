@@ -1,21 +1,25 @@
 package model.toy;
 
+import model.toy.enumerables.AgeRating;
+import model.toy.enumerables.Material;
+import model.toy.enumerables.ToyType;
+
 import java.util.Objects;
 
 public class Toy implements Toys{
     private static int count;
     private int id;
     private String name;
-    private String toyType;
-    private String ageRating;
-    private String material;
+    private ToyType toyType;
+    private AgeRating ageRating;
+    private Material material;
     private int length;
     private int width;
     private int height;
     private String manufacturer;
     private double cost;
 
-    public Toy(int id, String name, String toyType, String ageRating, String material,
+    public Toy(int id, String name, ToyType toyType, AgeRating ageRating, Material material,
                int length, int width, int height, String manufacturer, double cost) {
         this.id = id;
         this.name = name;
@@ -29,7 +33,7 @@ public class Toy implements Toys{
         this.cost = cost;
     }
 
-    public Toy(String name, String toyType, String ageRating, String material,
+    public Toy(String name, ToyType toyType, AgeRating ageRating, Material material,
                int length, int width, int height, String manufacturer, double cost) {
         this(count++, name, toyType, ageRating, material, length, width, height, manufacturer, cost);
     }
@@ -46,15 +50,15 @@ public class Toy implements Toys{
         this.name = name;
     }
 
-    public void setToyType(String string) {
+    public void setToyType(ToyType toyType) {
         this.toyType = toyType;
     }
 
-    public void setAgeRating(String ageRating) {
+    public void setAgeRating(AgeRating ageRating) {
         this.ageRating = ageRating;
     }
 
-    public void setMaterial(String material) {
+    public void setMaterial(Material material) {
         this.material = material;
     }
 
@@ -86,15 +90,15 @@ public class Toy implements Toys{
         return name;
     }
 
-    public String getToyType() {
+    public ToyType getToyType() {
         return toyType;
     }
 
-    public String getAgeRating() {
+    public AgeRating getAgeRating() {
         return ageRating;
     }
 
-    public String getMaterial() {
+    public Material getMaterial() {
         return material;
     }
 
