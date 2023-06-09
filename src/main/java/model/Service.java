@@ -1,5 +1,7 @@
 package model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import model.saving.Savable;
 import model.store.Procurement;
 import model.store.ToyStore;
 import model.toy.*;
@@ -8,13 +10,16 @@ import model.toy.enumerables.Material;
 import model.toy.enumerables.ToyType;
 
 
+import java.io.*;
 import java.util.Set;
 
 public class Service {
+    private Savable serializing;
     private ToyStore<Toy> toyStore;
 
-    public Service() {
+    public Service(Savable serializing) {
         this.toyStore = new ToyStore<>();
+        this.serializing = serializing;
     }
 
     public java.lang.String addNewToy(String name, ToyType toyType, AgeRating ageRating, Material material,
@@ -55,5 +60,48 @@ public class Service {
 
     public java.lang.String showAvailableToys(){
         return this.toyStore.getAvailableToys();
+    }
+
+    public String saveStore(String path) throws IOException {
+        StringWriter writer = new StringWriter();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(writer, toyStore);
+        String jsonString = writer.toString();
+        String result;
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path))) {
+            bufferedWriter.write(jsonString);
+            result = "Успешное сохранение в файл " + path;
+        } catch(IOException e) {
+            result = "Ошибка сохранения в файл!";
+        }
+        return result;
+    }
+
+    public String loadStore(String path) {
+        String newJsonString = null;
+        String result;
+        ObjectMapper mapper = new ObjectMapper();
+        StringBuilder stringBuilder = new StringBuilder();
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
+            String line = bufferedReader.readLine();
+            while(line != null) {
+                stringBuilder.append(line);
+                line = bufferedReader.readLine();
+            }
+            newJsonString = stringBuilder.toString();
+        } catch (FileNotFoundException e) {
+            result = "Ошибка восстановления из файла!";
+        } catch (IOException e) {
+            result = "Ошибка восстановления из файла!";
+        }
+        System.out.println(newJsonString);
+        ToyStore<Toy> toyStore;
+        try (StringReader reader = new StringReader(newJsonString)) {
+            toyStore = mapper.readValue(reader, ToyStore.class);
+            result = "Успешная загрузка из файла " + path;
+        } catch(IOException e) {
+            result = "Ошибка восстановления из файла!";
+        }
+        return result;
     }
 }

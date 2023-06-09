@@ -1,25 +1,29 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
+import model.Service;
+import model.saving.Savable;
+import model.saving.Serializing;
 import model.toy.*;
 import model.toy.enumerables.AgeRating;
 import model.toy.enumerables.Material;
 import model.toy.enumerables.ToyType;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
 
 public class Main {
     public static void main(java.lang.String[] args) throws IOException {
-//        Service service = new Service();
-//        System.out.println(service.showAvailableToys());
-//
-//        System.out.println(service.addNewToy("Матрешка", "Doll", "ZeroPlus", "Wood",
-//                50, 50, 100, "Древбыт", 300));
-//        System.out.println(service.showToysList());
-//
-//        System.out.println(service.addNewProcurement(0, "Космос", 5));
-//        System.out.println(service.showAvailableToys());
-//        System.out.println(service.showToyInfo(0));
+        Savable serializing = new Serializing(serializing);
+        Service service = new Service();
+        System.out.println(service.showAvailableToys());
+
+        System.out.println(service.addNewToy("Матрешка", "Doll", "ZeroPlus", "Wood",
+                50, 50, 100, "Древбыт", 300));
+        System.out.println(service.showToysList());
+
+        System.out.println(service.addNewProcurement(0, "Космос", 5));
+        System.out.println(service.showAvailableToys());
+        System.out.println(service.showToyInfo(0));
+
+
 
 
 
@@ -39,15 +43,41 @@ public class Main {
         // сама сериализация: 1-куда, 2-что
         mapper.writeValue(writer, toy);
 
-        //преобразовываем все записанное во StringWriter в строку
-        java.lang.String jsonString = writer.toString();
+        //преобразовываем все записанное в StringWriter в строку
+        String jsonString = writer.toString();
         System.out.println(jsonString);
 
-        StringReader reader = new StringReader(jsonString);
-        Toys toy2 = mapper.readValue(reader, Toy.class);
+        // Записываем текст из переменной в файл
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("Toy.json"))) {
+            bufferedWriter.write(jsonString);
+            System.out.println("Сохранено в файл");
+        } catch(IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+        // Извлекаем текст из файла в текстовую переменную
+        String newJsonString = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("Toy.json"))) {
+            String line = bufferedReader.readLine();
+            while(line != null) {
+                stringBuilder.append(line);
+                line = bufferedReader.readLine();
+            }
+            newJsonString = stringBuilder.toString();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println(newJsonString);
+
+        // Создаем объект из JSON в текстовой переменной
+        Toys toy2;
+        try (StringReader reader = new StringReader(newJsonString)) {
+            toy2 = mapper.readValue(reader, Toy.class);
+        }
         System.out.println(toy2);
-
-
-
     }
 }
