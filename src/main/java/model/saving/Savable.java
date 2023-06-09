@@ -1,6 +1,11 @@
 package model.saving;
 
+import model.store.ToyStore;
+import model.toy.Toy;
+
+import java.io.IOException;
+
 public interface Savable {
-    void saveObjectAs(Object object, String path);
-    Object loadObjectFrom(String path);
+    String saveObjectAs(ToyStore toyStore, String path) throws IOException;
+    ToyStore<Toy> loadObjectFrom(String path);
 }

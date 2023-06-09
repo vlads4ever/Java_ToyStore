@@ -2,17 +2,33 @@ package model.store;
 
 import model.toy.Toys;
 import model.toy.comparators.CompareByName;
-
 import java.util.*;
 
 public class ToyStore<E extends Toys> {
-
     private Set<E> toysSet;
     private List<Procurement<E>> procurementList;
 
-    public ToyStore() {
+    public ToyStore(boolean flag) {
         this.toysSet = new TreeSet<>(new CompareByName<E>());
         this.procurementList = new ArrayList<>();
+    }
+
+    public ToyStore() {
+    }
+
+    public void setToysSet(List<E> toysSet) {
+        this.toysSet = (Set<E>) toysSet;
+    }
+
+    public void setProcurementList(List<Procurement<E>> procurementList) {
+        this.procurementList = procurementList;
+    }
+
+    public List<Procurement<E>> getProcurementList() {
+        return procurementList;
+    }
+    public Set<E> getToysSet(){
+        return this.toysSet;
     }
 
     public void addNewToy(E toy){
@@ -26,10 +42,6 @@ public class ToyStore<E extends Toys> {
             }
         }
         return null;
-    }
-
-    public Set<E> getToysSet(){
-        return this.toysSet;
     }
 
     public void addNewProcurement(Procurement<E> procurement){
@@ -66,7 +78,7 @@ public class ToyStore<E extends Toys> {
         return output.toString();
     }
 
-    public String getAvailableToys(){
+    public String showAvailableToys(){
         StringBuilder output = new StringBuilder();
         if (this.toysSet.size() != 0) {
             for (E toy: this.toysSet) {
