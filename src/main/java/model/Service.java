@@ -1,6 +1,7 @@
 package model;
 
 import model.saving.Savable;
+import model.store.Procurement;
 import model.store.ToyStore;
 import model.toy.*;
 import model.toy.enumerables.AgeRating;
@@ -21,17 +22,17 @@ public class Service {
     }
 
     public String addNewToy(String name, ToyType toyType, AgeRating ageRating, Material material,
-                                      int length, int width, int height, String manufacturer, double cost){
+                                      int length, int width, int height, String manufacturer, double cost) {
         Toy toy = new Toy(name, toyType, ageRating, material, length, width, height, manufacturer, cost);
         this.toyStore.addNewToy(toy);
         return "Новый товар создан.";
     }
 
-    public String showToyInfo(int id){
+    public String showToyInfo(int id) {
         return this.toyStore.getToy(id).toString();
     }
 
-    public String showToysList(){
+    public String showToysList() {
         StringBuilder output = new StringBuilder();
         Set<Toy> toys = toyStore.getToysSet();
         if (toys.size() != 0) {
@@ -45,18 +46,22 @@ public class Service {
         return output.toString();
     }
 
-    public String addNewProcurement(int id, int quantity){
-        Toy toy = this.toyStore.getToy(id);
+    public String addNewProcurement(int id, String supplier, int quantity) {
+        Toy toy = (Toy) this.toyStore.getToy(id);
         if (toy != null) {
-//            Procurement procurement = new Procurement(toy, supplier, warehouseQuantity);
-            this.toyStore.addNewProcurement(id, quantity);
+            Procurement procurement = new Procurement(id, supplier, quantity);
+            this.toyStore.addNewProcurement(procurement);
             return "Поставка проведена.";
         }
         return "Товар с таким id отсутствует.";
     }
 
-    public String showAvailableToys(){
+    public String showAvailableToys() {
         return this.toyStore.showAvailableToys();
+    }
+
+    public String showAllProcurements() {
+        return this.toyStore.showAllProcurements();
     }
 
     public String saleToys(int id, int quantity) {
@@ -69,6 +74,7 @@ public class Service {
 
     public String loadStore(String path) {
         this.toyStore = serializing.loadObjectFrom(path);
+        this.toyStore.setMaxCounters();
         return "Успешное восстановление из файла " + path;
     }
 }

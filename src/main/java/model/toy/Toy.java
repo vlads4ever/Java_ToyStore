@@ -42,6 +42,10 @@ public class Toy implements Toys{
 
     }
 
+    public static void setCount(int count) {
+        Toy.count = count;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -81,6 +85,10 @@ public class Toy implements Toys{
     public void setCost(double cost) {
         this.cost = cost;
     }
+
+//    public static int getCount() {
+//        return count;
+//    }
 
     public int getId() {
         return id;

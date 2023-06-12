@@ -3,6 +3,7 @@ package model.saving;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.store.ToyStore;
 import model.toy.Toy;
+import model.toy.Toys;
 
 import java.io.*;
 
