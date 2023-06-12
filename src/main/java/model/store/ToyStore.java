@@ -1,42 +1,63 @@
 package model.store;
 
-import model.toy.Toys;
+import model.toy.Toy;
 import model.toy.comparators.CompareByName;
 import java.util.*;
 
-public class ToyStore<E extends Toys> {
-    private Set<E> toysSet;
-    private List<Procurement<E>> procurementList;
+public class ToyStore {
+    private Set<Toy> toysSet;
+    private Map<Integer, Integer> toysCount;
 
-    public ToyStore(boolean flag) {
-        this.toysSet = new TreeSet<>(new CompareByName<E>());
-        this.procurementList = new ArrayList<>();
+    public ToyStore(boolean newToyStore) {
+        this.toysSet = new TreeSet<>(new CompareByName<Toy>());
+        this.toysCount = new HashMap<Integer, Integer>();
     }
 
-    public ToyStore() {
+    public ToyStore(){
     }
 
-    public void setToysSet(List<E> toysSet) {
-        this.toysSet = (Set<E>) toysSet;
+    public void setToysSet(Set<Toy> toysSet) {
+        this.toysSet = toysSet;
     }
 
-    public void setProcurementList(List<Procurement<E>> procurementList) {
-        this.procurementList = procurementList;
-    }
-
-    public List<Procurement<E>> getProcurementList() {
-        return procurementList;
-    }
-    public Set<E> getToysSet(){
+    public Set<Toy> getToysSet(){
         return this.toysSet;
     }
 
-    public void addNewToy(E toy){
+    public void setToysCount(Map<Integer, Integer> toysCount) {
+        this.toysCount = toysCount;
+    }
+
+    public Map<Integer, Integer> getToysCount() {
+        return toysCount;
+    }
+
+    public void addNewProcurement(int id, int count) {
+        if (this.toysCount.containsKey(id)) {
+            int availableCount = this.toysCount.get(id);
+            this.toysCount.put(id, availableCount + count);
+        } else {
+            this.toysCount.put(id, count);
+        }
+    }
+
+    public String showAvailableToys() {
+        StringBuilder output = new StringBuilder();
+        for (Toy toy: this.toysSet) {
+            int id = toy.getId();
+            String name = toy.getName();
+            output.append(String.format("id: %d %s %dшт. %.2fруб.",
+                        id, name, this.toysCount.get(id), toy.getCost()) + "\n");
+        }
+        return output.toString();
+    }
+
+    public void addNewToy(Toy toy){
         this.toysSet.add(toy);
     }
 
-    public E getToy(int id){
-        for (E toy : this.toysSet) {
+    public Toy getToy(int id){
+        for (Toy toy : this.toysSet) {
             if (toy.getId() == id) {
                 return toy;
             }
@@ -44,62 +65,25 @@ public class ToyStore<E extends Toys> {
         return null;
     }
 
-    public void addNewProcurement(Procurement<E> procurement){
-        this.procurementList.add(procurement);
-    }
-
-    public String getAvailableToyInfo(int id){
-        StringBuilder output = new StringBuilder();
-        int shopQuantity = 0;
-        int warehouseQuantity = 0;
-        String toyName = "";
-        double toyCost = 0;
-        for (Procurement<E> procurement: this.procurementList) {
-            if (procurement.getToy().getId() == id) {
-                shopQuantity += procurement.getShopQuantity();
-                warehouseQuantity += procurement.getWarehouseQuantity();
-                toyName = procurement.getToy().getName();
-                toyCost = procurement.getToy().getCost();
-            }
-        }
-        if (toyName != "") {
-            if (shopQuantity != 0 || warehouseQuantity != 0) {
-                output.append(String.format("id: %d %s %.2f",
-                        id, toyName, toyCost) + "руб." + "\n");
-                output.append("В магазине: " + shopQuantity + "шт." + "\n");
-                output.append("На складе: " + warehouseQuantity + "шт." + "\n");
-            } else {
-                output.append("Товар отсутствует.");
-            }
-
+    public String saleToys(int id, int count){
+        Toy toy = this.getToy(id);
+        if (toy == null) {
+            return "Товар с таким id отсутствует.";
         } else {
-            output.append("Товар с таким id отсутствует.");
-        }
-        return output.toString();
-    }
-
-    public String showAvailableToys(){
-        StringBuilder output = new StringBuilder();
-        if (this.toysSet.size() != 0) {
-            for (E toy: this.toysSet) {
-                String toyInfo = this.getAvailableToyInfo(toy.getId());
-                if (!toyInfo.equals("Товар отсутствует.")) {
-                    output.append(toyInfo + "\n");
+            int quantity = this.toysCount.get(id);
+            if (quantity >= count) {
+                int balance = quantity - count;
+                if (balance == 0) {
+                    this.toysCount.remove(id);
+                } else {
+                    this.toysCount.put(id, balance);
                 }
+                return String.format("Товар продан по цене %.2fруб. за штуку на сумму %.2fруб.",
+                        toy.getCost(), count * toy.getCost());
+            } else {
+                return "Такого количества нет в наличии.";
             }
-        } else {
-            output.append("Товары отстутсвуют.");
         }
-        return output.toString();
     }
 
-    public String buyFromShop(int id){
-        //TODO: Продать с полок магазина
-        return "";
-    }
-
-    public String buyFromWarehouse(int id){
-        //TODO: Продать со склада
-        return "";
-    }
 }

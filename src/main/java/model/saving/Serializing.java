@@ -24,7 +24,7 @@ public class Serializing implements Savable{
     }
 
     @Override
-    public ToyStore<Toy> loadObjectFrom(String path) {
+    public ToyStore loadObjectFrom(String path) {
         String newJsonString = null;
         ObjectMapper mapper = new ObjectMapper();
         StringBuilder stringBuilder = new StringBuilder();
@@ -39,9 +39,9 @@ public class Serializing implements Savable{
             e.printStackTrace();
         }
 
-        ToyStore<Toy> toyStore = new ToyStore<>(true);
+        ToyStore toyStore = new ToyStore(true);
         try (StringReader reader = new StringReader(newJsonString)) {
-            toyStore = (ToyStore<Toy>) mapper.readValue(reader, ToyStore.class);
+            toyStore = (ToyStore) mapper.readValue(reader, ToyStore.class);
         } catch(IOException e) {
             e.printStackTrace();
         }

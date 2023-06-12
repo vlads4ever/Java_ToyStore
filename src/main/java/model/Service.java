@@ -1,7 +1,6 @@
 package model;
 
 import model.saving.Savable;
-import model.store.Procurement;
 import model.store.ToyStore;
 import model.toy.*;
 import model.toy.enumerables.AgeRating;
@@ -14,10 +13,10 @@ import java.util.Set;
 
 public class Service {
     private Savable serializing;
-    private ToyStore<Toy> toyStore;
+    private ToyStore toyStore;
 
     public Service(Savable serializing) {
-        this.toyStore = new ToyStore<>(true);
+        this.toyStore = new ToyStore(true);
         this.serializing = serializing;
     }
 
@@ -37,8 +36,8 @@ public class Service {
         Set<Toy> toys = toyStore.getToysSet();
         if (toys.size() != 0) {
             for (Toy toy: toys) {
-                output.append(String.format("id: %d %s %.2f",
-                        toy.getId(), toy.getName(), toy.getCost()) + "руб." + "\n");
+                output.append(String.format("id: %d %s %.2fруб.",
+                        toy.getId(), toy.getName(), toy.getCost()) + "\n");
             }
         } else {
             output.append("Список пуст." + "\n");
@@ -46,11 +45,11 @@ public class Service {
         return output.toString();
     }
 
-    public String addNewProcurement(int id, String supplier, int warehouseQuantity){
+    public String addNewProcurement(int id, int quantity){
         Toy toy = this.toyStore.getToy(id);
         if (toy != null) {
-            Procurement procurement = new Procurement<Toy>(toy, supplier, warehouseQuantity);
-            this.toyStore.addNewProcurement(procurement);
+//            Procurement procurement = new Procurement(toy, supplier, warehouseQuantity);
+            this.toyStore.addNewProcurement(id, quantity);
             return "Поставка проведена.";
         }
         return "Товар с таким id отсутствует.";
@@ -58,6 +57,10 @@ public class Service {
 
     public String showAvailableToys(){
         return this.toyStore.showAvailableToys();
+    }
+
+    public String saleToys(int id, int quantity) {
+        return this.toyStore.saleToys(id, quantity);
     }
 
     public String saveStore(String path) throws IOException {

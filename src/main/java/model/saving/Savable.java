@@ -7,5 +7,5 @@ import java.io.IOException;
 
 public interface Savable {
     String saveObjectAs(ToyStore toyStore, String path) throws IOException;
-    ToyStore<Toy> loadObjectFrom(String path);
+    ToyStore loadObjectFrom(String path);
 }
