@@ -16,6 +16,6 @@ public class AddNewProcurement implements Command {
 
     @Override
     public void execute() {
-        view.addNewProcurement();
+        this.view.addNewProcurement();
     }
 }

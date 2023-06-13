@@ -2,6 +2,8 @@ package view.commands;
 
 import view.View;
 
+import java.io.IOException;
+
 public class SaveStore implements Command {
     private View view;
 
@@ -15,7 +17,7 @@ public class SaveStore implements Command {
     }
 
     @Override
-    public void execute() {
-        view.saveStore();
+    public void execute() throws IOException {
+        this.view.saveStore();
     }
 }

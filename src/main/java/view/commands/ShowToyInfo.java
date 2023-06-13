@@ -16,6 +16,6 @@ public class ShowToyInfo implements Command {
 
     @Override
     public void execute() {
-        view.showToyInfo();
+        this.view.showToyInfo();
     }
 }

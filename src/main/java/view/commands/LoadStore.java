@@ -16,6 +16,6 @@ public class LoadStore implements Command {
 
     @Override
     public void execute() {
-        view.loadStore();
+        this.view.loadStore();
     }
 }

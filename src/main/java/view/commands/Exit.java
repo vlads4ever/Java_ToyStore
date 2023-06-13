@@ -17,6 +17,6 @@ public class Exit implements Command {
 
     @Override
     public void execute() {
-        view.exit();
+        this.view.exit();
     }
 }

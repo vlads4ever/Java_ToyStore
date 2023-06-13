@@ -16,6 +16,6 @@ public class ShowAvailableToys implements Command {
 
     @Override
     public void execute() {
-        view.showAvailableToys();
+        this.view.showAvailableToys();
     }
 }

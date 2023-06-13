@@ -16,6 +16,6 @@ public class SaleToys implements Command {
 
     @Override
     public void execute() {
-        view.saleToys();
+        this.view.saleToys();
     }
 }

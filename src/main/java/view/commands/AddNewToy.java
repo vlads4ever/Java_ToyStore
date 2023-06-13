@@ -11,11 +11,11 @@ public class AddNewToy implements Command{
 
     @Override
     public String getDescription() {
-        return "Добавить в справочник новую игрушку.";
+        return "Завести новую игрушку.";
     }
 
     @Override
     public void execute() {
-        view.addNewToy();
+        this.view.addNewToy();
     }
 }

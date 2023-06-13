@@ -18,6 +18,6 @@ public interface View {
     void showAvailableToys();
     void showAllProcurements();
     void saleToys();
-    void saveStore();
+    void saveStore() throws IOException;
     void loadStore();
 }

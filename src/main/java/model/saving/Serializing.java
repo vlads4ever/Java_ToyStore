@@ -17,9 +17,9 @@ public class Serializing implements Savable{
         String result;
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path))) {
             bufferedWriter.write(jsonString);
-            result = "Успешное сохранение в файл " + path;
+            result = "Успешное сохранение в файл " + path + "\n";
         } catch(IOException e) {
-            result = "Ошибка сохранения в файл!";
+            result = "Ошибка сохранения в файл!" + "\n";
         }
         return result;
     }

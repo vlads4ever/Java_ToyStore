@@ -130,16 +130,16 @@ public class ConsoleUI implements View {
 
     @Override
     public void addNewToy() {
-        this.print("Собираем информацию о новой игрушке...");
+        this.print("Заводим новую игрушку...");
         String toyName = this.inputString("Введите название игрушки: ");
         this.print("Доступные типы игрушек: 1:'Кукла', 2:'Пазл', 3:'Конструктор', 4:'Игрушечный инструмент', " +
                 "5:'Машинка', 6:'Настольная игра'");
-        int toyType = this.inputEnumerables("Укажите тип игрушки: ", 6);
+        int toyType = this.inputEnumerables("Укажите тип игрушки (от 0 до 6): ", 6);
         this.print("Доступные варианты возрастного рейтинга: 1:'0+', 2:'3+', 3:'7+'");
-        int ageRating = this.inputEnumerables("Укажите возрастной рейтинг: ", 3);
+        int ageRating = this.inputEnumerables("Укажите возрастной рейтинг (от 0 до 3): ", 3);
         this.print("Доступные варианты материала: 1:'Плюш', 2:'Пластик', 3:'Дерево', 4:'ПВХ', 5:'Фарфор', " +
                 "6:'Метал'");
-        int material = this.inputEnumerables("Укажите материал: ", 6);
+        int material = this.inputEnumerables("Укажите материал (от 0 до 6): ", 6);
         int length = this.inputInt("Укажите длину в мм.: ");
         int width = this.inputInt("Укажите ширину в мм.: ");
         int height = this.inputInt("Укажите высоту в мм.: ");
@@ -160,36 +160,49 @@ public class ConsoleUI implements View {
 
     @Override
     public void showToyInfo() {
-
+        this.print("Подготовка информации об игрушке...");
+        int id = this.inputInt("Введите id игрушки: ");
+        this.print("---Информация об игрушке---");
+        this.presenter.showToyInfo(id);
     }
 
     @Override
     public void showToysList() {
-
+        this.print("---Справочник игрушек---");
+        this.presenter.showToysList();
     }
 
     @Override
     public void showAvailableToys() {
-
+        this.print("---Игрушки в наличии---");
+        this.presenter.showAvailableToys();
     }
 
     @Override
     public void showAllProcurements() {
-
+        this.print("---Отчет по закупкам---");
+        this.presenter.showAllProcurements();
     }
 
     @Override
     public void saleToys() {
-
+        this.print("Продажа игрушки...");
+        int id = this.inputInt("Введите id игрушки: ");
+        int quantity = this.inputInt("Введите количество: ");
+        this.presenter.saleToys(id, quantity);
     }
 
     @Override
-    public void saveStore() {
-
+    public void saveStore() throws IOException {
+        this.print("Подготовка к сохранению...");
+        String path = this.inputString("Введите название файла (без расширения): ");
+        this.presenter.saveStore(path + ".json");
     }
 
     @Override
     public void loadStore() {
-
+        this.print("Подготовка к загрузке...");
+        String path = this.inputString("Введите название файла (без расширения): ");
+        this.presenter.loadStore(path + ".json");
     }
 }

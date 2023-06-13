@@ -6,6 +6,8 @@ import model.toy.enumerables.Material;
 import model.toy.enumerables.ToyType;
 import view.View;
 
+import java.io.IOException;
+
 public class Presenter {
     private View view;
     private Service service;
@@ -24,11 +26,25 @@ public class Presenter {
     public void addNewProcurement(int id, String supplier, int quantity) {
         this.view.print(this.service.addNewProcurement(id, supplier, quantity));
     }
-    public void showToyInfo(){}
-    public void showToysList(){}
-    public void showAvailableToys(){}
-    public void showAllProcurements(){}
-    public void saleToys(){}
-    public void saveStore(){}
-    public void loadStore(){}
+    public void showToyInfo(int id){
+        this.view.print(this.service.showToyInfo(id));
+    }
+    public void showToysList(){
+        this.view.print(this.service.showToysList());
+    }
+    public void showAvailableToys(){
+        this.view.print(this.service.showAvailableToys());
+    }
+    public void showAllProcurements(){
+        this.view.print(this.service.showAllProcurements());
+    }
+    public void saleToys(int id, int quantity){
+        this.view.print(this.service.saleToys(id, quantity));
+    }
+    public void saveStore(String path) throws IOException {
+        this.view.print(this.service.saveStore(path));
+    }
+    public void loadStore(String path){
+        this.view.print(this.service.loadStore(path));
+    }
 }

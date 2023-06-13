@@ -21,13 +21,6 @@ public class Service {
         this.serializing = serializing;
     }
 
-//    public String addNewToy(String name, ToyType toyType, AgeRating ageRating, Material material,
-//                                      int length, int width, int height, String manufacturer, double cost) {
-//        Toy toy = new Toy(name, toyType, ageRating, material, length, width, height, manufacturer, cost);
-//        this.toyStore.addNewToy(toy);
-//        return "Новый товар создан.";
-//    }
-
     public String addNewToy(String name, int tType, int tRating, int tMaterial,
                             int length, int width, int height, String manufacturer, double cost) {
         ToyType toyType = ToyType.Doll;
@@ -60,21 +53,11 @@ public class Service {
     }
 
     public String showToyInfo(int id) {
-        return this.toyStore.getToy(id).toString();
+        return this.toyStore.showToyInfo(id);
     }
 
     public String showToysList() {
-        StringBuilder output = new StringBuilder();
-        Set<Toy> toys = toyStore.getToysSet();
-        if (toys.size() != 0) {
-            for (Toy toy: toys) {
-                output.append(String.format("id: %d %s %.2fруб.",
-                        toy.getId(), toy.getName(), toy.getCost()) + "\n");
-            }
-        } else {
-            output.append("Список пуст." + "\n");
-        }
-        return output.toString();
+        return this.toyStore.showToysList();
     }
 
     public String addNewProcurement(int id, String supplier, int quantity) {
@@ -106,6 +89,6 @@ public class Service {
     public String loadStore(String path) {
         this.toyStore = serializing.loadObjectFrom(path);
         this.toyStore.setMaxCounters();
-        return "Успешное восстановление из файла " + path;
+        return "Успешное восстановление из файла " + path + "\n";
     }
 }

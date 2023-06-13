@@ -16,6 +16,6 @@ public class ShowAllProcurements implements Command {
 
     @Override
     public void execute() {
-        view.showAllProcurements();
+        this.view.showAllProcurements();
     }
 }

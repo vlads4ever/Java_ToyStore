@@ -27,7 +27,7 @@ public class MainMenu {
 
     public String print(){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("~~~~~~~~~~~~~~~~~~~~~~Меню:~~~~~~~~~~~~~~~~~~~~~~" + "\n");
+        stringBuilder.append("~~~~~~~~~~~~~~~~~Меню:~~~~~~~~~~~~~~~~~" + "\n");
         for (int i = 0; i < commandList.size(); i++) {
             stringBuilder.append(i + 1);
             stringBuilder.append(". ");
@@ -35,7 +35,7 @@ public class MainMenu {
             stringBuilder.append("\n");
         }
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        stringBuilder.append("\n" + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        stringBuilder.append("\n" + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         return stringBuilder.toString();
     }
 

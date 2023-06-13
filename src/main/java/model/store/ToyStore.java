@@ -74,27 +74,61 @@ public class ToyStore {
 
     public String showAllProcurements() {
         StringBuilder output = new StringBuilder();
-        for (Procurement procurement: this.toysProcurements) {
-            String toyName = this.getToy(procurement.getToyId()).getName();
-            output.append("id: " + procurement.getId() + " " + procurement.getDate() + " " + toyName + " " +
-                    procurement.getQuantity() + "шт. " + "Поставщик: " + procurement.getSupplier() + "\n");
+        if (this.toysProcurements.size() > 0) {
+            for (Procurement procurement: this.toysProcurements) {
+                String toyName = this.getToy(procurement.getToyId()).getName();
+                output.append("id: ").append(procurement.getId()).append(" ").
+                        append(procurement.getDate()).append(" ").append(toyName).
+                        append(" ").append(procurement.getQuantity()).append("шт. ").
+                        append("Поставщик: ").append(procurement.getSupplier()).append("\n");
+            }
+        } else {
+            output.append("Список закупок пуст.").append("\n");
         }
+
         return output.toString();
     }
 
     public String showAvailableToys() {
         StringBuilder output = new StringBuilder();
-        for (Toy toy: this.toysSet) {
-            int id = toy.getId();
-            String name = toy.getName();
-            output.append(String.format("id: %d %s %dшт. %.2fруб.",
-                        id, name, this.toysQuantity.get(id), toy.getCost()) + "\n");
+        if (this.toysSet.size() > 0) {
+            for (Toy toy: this.toysSet) {
+                int id = toy.getId();
+                String name = toy.getName();
+                output.append(String.format("id: %d %s %dшт. %.2fруб.",
+                        id, name, this.toysQuantity.get(id), toy.getCost())).append("\n");
+            }
+        } else {
+            output.append("Игрушек в наличии нет.").append("\n");
         }
         return output.toString();
     }
 
     public void addNewToy(Toy toy) {
         this.toysSet.add(toy);
+    }
+
+    public String showToyInfo(int id) {
+        Toy toy = this.getToy(id);
+        if (toy != null) {
+            return toy.toString() + "\n";
+        } else {
+            return "Игрушки с таким id нет." + "\n";
+        }
+    }
+
+    public String showToysList() {
+        StringBuilder output = new StringBuilder();
+        if (this.toysSet.size() != 0) {
+            for (Toy toy: this.toysSet) {
+                output.append(String.format("id: %d %s %s %s %s %.2fруб.",
+                        toy.getId(), toy.getName(), toy.getToyType(), toy.getAgeRating(),
+                        toy.getMaterial(),toy.getCost())).append("\n");
+            }
+        } else {
+            output.append("Список пуст." + "\n");
+        }
+        return output.toString();
     }
 
     public Toy getToy(int id) {
@@ -109,7 +143,7 @@ public class ToyStore {
     public String saleToys(int id, int count) {
         Toy toy = this.getToy(id);
         if (toy == null) {
-            return "Товар с таким id отсутствует.";
+            return "Игрушки с таким id нет." + "\n";
         } else {
             int quantity = this.toysQuantity.get(id);
             if (quantity >= count) {
@@ -120,9 +154,9 @@ public class ToyStore {
                     this.toysQuantity.put(id, balance);
                 }
                 return String.format("Товар %s продан по цене %.2fруб. за штуку на сумму %.2fруб.",
-                        toy.getName(), toy.getCost(), count * toy.getCost());
+                        toy.getName(), toy.getCost(), count * toy.getCost()) + "\n";
             } else {
-                return "Такого количества нет в наличии.";
+                return "Такого количества нет в наличии." + "\n";
             }
         }
     }
