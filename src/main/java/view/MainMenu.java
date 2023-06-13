@@ -1,7 +1,6 @@
 package view;
 
-import view.commands.Command;
-import view.commands.Exit;
+import view.commands.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +14,15 @@ public class MainMenu {
         this.view = view;
         commandList = new ArrayList<>();
         commandList.add(new Exit(view));
+        commandList.add(new AddNewToy(view));
+        commandList.add(new ShowToysList(view));
+        commandList.add(new AddNewProcurement(view));
+        commandList.add(new SaleToys(view));
+        commandList.add(new ShowToyInfo(view));
+        commandList.add(new ShowAvailableToys(view));
+        commandList.add(new ShowAllProcurements(view));
+        commandList.add(new SaveStore(view));
+        commandList.add(new LoadStore(view));
     }
 
     public String print(){

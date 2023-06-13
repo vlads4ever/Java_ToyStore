@@ -2,20 +2,20 @@ package view.commands;
 
 import view.View;
 
-public class AddNewToy implements Command{
+public class SaveStore implements Command {
     private View view;
 
-    public AddNewToy(View view) {
+    public SaveStore(View view) {
         this.view = view;
     }
 
     @Override
     public String getDescription() {
-        return "Добавить в справочник новую игрушку.";
+        return "Сохранить базу в файл JSON.";
     }
 
     @Override
     public void execute() {
-        view.addNewToy();
+        view.saveStore();
     }
 }

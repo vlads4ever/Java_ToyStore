@@ -3,7 +3,7 @@ package view.commands;
 
 import view.View;
 
-public class Exit implements Command{
+public class Exit implements Command {
     private View view;
 
     public Exit(View view) {
@@ -12,7 +12,7 @@ public class Exit implements Command{
 
     @Override
     public String getDescription() {
-        return "Завершение работы";
+        return "Завершение работы.";
     }
 
     @Override

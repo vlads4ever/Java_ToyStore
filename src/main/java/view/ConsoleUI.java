@@ -5,13 +5,14 @@ import presenter.Presenter;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class ConsoleUI implements View{
+public class ConsoleUI implements View {
+    private static String WRONG_VALUE = "Введено некорректное значение.";
     private Presenter presenter;
     private MainMenu mainMenu;
     private Scanner scanner;
     private boolean run;
 
-    public ConsoleUI(Presenter presenter, MainMenu mainMenu, Scanner scanner, boolean run) {
+    public ConsoleUI() {
         this.scanner = new Scanner(System.in);
         this.run = true;
         mainMenu = new MainMenu(this);
@@ -71,24 +72,49 @@ public class ConsoleUI implements View{
         int number = 0;
         boolean run = true;
         while (run) {
-            try
-            {
+            try {
                 number = Integer.parseInt(this.inputString(message).trim());
                 run = false;
-            }
-            catch (NumberFormatException nfe)
-            {
-                System.out.println("Введено некорректное значение.");
+            } catch (NumberFormatException nfe) {
+                System.out.println(WRONG_VALUE);
             }
         }
         return number;
+    }
+
+    private double inputDouble(String message) {
+        double number = 0;
+        boolean run = true;
+        while (run) {
+            try {
+                number = Double.parseDouble(this.inputString(message).trim());
+                run = false;
+            } catch (NumberFormatException nfe) {
+                System.out.println(WRONG_VALUE);
+            }
+        }
+        return number;
+    }
+
+    public int inputEnumerables(String message, int value) {
+        int checkingValue = 0;
+        boolean run = true;
+        while (run) {
+            checkingValue = this.inputInt(message);
+            if (checkingValue >= 0 && checkingValue <= value) {
+                return checkingValue;
+            } else {
+                this.print(WRONG_VALUE);
+            }
+        }
+        return checkingValue;
     }
 
     private boolean checkTextForInt(String text){
         if (text.matches("[0-9]+")){
             return true;
         } else {
-            this.print("Введено некорректное значение.");
+            this.print(WRONG_VALUE);
             return false;
         }
     }
@@ -97,7 +123,7 @@ public class ConsoleUI implements View{
         if (numCommand <= mainMenu.size()){
             return true;
         } else {
-            this.print("Введено некорректное значение.");
+            this.print(WRONG_VALUE);
             return false;
         }
     }
@@ -108,20 +134,28 @@ public class ConsoleUI implements View{
         String toyName = this.inputString("Введите название игрушки: ");
         this.print("Доступные типы игрушек: 1:'Кукла', 2:'Пазл', 3:'Конструктор', 4:'Игрушечный инструмент', " +
                 "5:'Машинка', 6:'Настольная игра'");
-        int toyType = this.inputInt("Укажите тип игрушки: ");
+        int toyType = this.inputEnumerables("Укажите тип игрушки: ", 6);
         this.print("Доступные варианты возрастного рейтинга: 1:'0+', 2:'3+', 3:'7+'");
-        int ageRating = this.inputInt("Укажите возрастной рейтинг: ");
+        int ageRating = this.inputEnumerables("Укажите возрастной рейтинг: ", 3);
         this.print("Доступные варианты материала: 1:'Плюш', 2:'Пластик', 3:'Дерево', 4:'ПВХ', 5:'Фарфор', " +
                 "6:'Метал'");
-        int material = this.inputInt("Укажите материал: ");
-//        int length, int width, int height, String manufacturer, double cost
-
-
+        int material = this.inputEnumerables("Укажите материал: ", 6);
+        int length = this.inputInt("Укажите длину в мм.: ");
+        int width = this.inputInt("Укажите ширину в мм.: ");
+        int height = this.inputInt("Укажите высоту в мм.: ");
+        String manufacturer = this.inputString("Укажите изготовителя: ");
+        double cost = this.inputDouble("Укажите цену: ");
+        this.presenter.addNewToy(toyName, toyType, ageRating, material,
+                length, width, height, manufacturer, cost);
     }
 
     @Override
     public void addNewProcurement() {
-
+        this.print("Оформляем новую поставку...");
+        int id = this.inputInt("Введите id игрушки: ");
+        String supplier = this.inputString("Введите поставщика: ");
+        int quantity = this.inputInt("Введите количество товара: ");
+        this.presenter.addNewProcurement(id, supplier, quantity);
     }
 
     @Override

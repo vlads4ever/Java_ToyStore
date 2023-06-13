@@ -2,20 +2,20 @@ package view.commands;
 
 import view.View;
 
-public class AddNewToy implements Command{
+public class SaleToys implements Command {
     private View view;
 
-    public AddNewToy(View view) {
+    public SaleToys(View view) {
         this.view = view;
     }
 
     @Override
     public String getDescription() {
-        return "Добавить в справочник новую игрушку.";
+        return "Продать игрушку.";
     }
 
     @Override
     public void execute() {
-        view.addNewToy();
+        view.saleToys();
     }
 }

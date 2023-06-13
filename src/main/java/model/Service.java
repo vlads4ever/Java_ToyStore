@@ -21,8 +21,39 @@ public class Service {
         this.serializing = serializing;
     }
 
-    public String addNewToy(String name, ToyType toyType, AgeRating ageRating, Material material,
-                                      int length, int width, int height, String manufacturer, double cost) {
+//    public String addNewToy(String name, ToyType toyType, AgeRating ageRating, Material material,
+//                                      int length, int width, int height, String manufacturer, double cost) {
+//        Toy toy = new Toy(name, toyType, ageRating, material, length, width, height, manufacturer, cost);
+//        this.toyStore.addNewToy(toy);
+//        return "Новый товар создан.";
+//    }
+
+    public String addNewToy(String name, int tType, int tRating, int tMaterial,
+                            int length, int width, int height, String manufacturer, double cost) {
+        ToyType toyType = ToyType.Doll;
+        AgeRating ageRating = AgeRating.ZeroPlus;
+        Material material = Material.Plush;
+        switch (tType) {
+            case 1 -> toyType = ToyType.Doll;
+            case 2 -> toyType = ToyType.Puzzle;
+            case 3 -> toyType = ToyType.Constructor;
+            case 4 -> toyType = ToyType.ToyTool;
+            case 5 -> toyType = ToyType.ToyCar;
+            case 6 -> toyType = ToyType.BoardGame;
+        }
+        switch (tRating) {
+            case 1 -> ageRating = AgeRating.ZeroPlus;
+            case 2 -> ageRating = AgeRating.ThreePlus;
+            case 3 -> ageRating = AgeRating.SevenPlus;
+        }
+        switch (tMaterial) {
+            case 1 -> material = Material.Plush;
+            case 2 -> material = Material.Plastic;
+            case 3 -> material = Material.Wood;
+            case 4 -> material = Material.PVC;
+            case 5 -> material = Material.Porcelain;
+            case 6 -> material = Material.Metal;
+        }
         Toy toy = new Toy(name, toyType, ageRating, material, length, width, height, manufacturer, cost);
         this.toyStore.addNewToy(toy);
         return "Новый товар создан.";
