@@ -2,12 +2,9 @@ package model.saving;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.store.ToyStore;
-import model.toy.Toy;
-import model.toy.Toys;
-
 import java.io.*;
 
-public class Serializing implements Savable{
+public class JSONSerializing implements Savable{
     @Override
     public String saveObjectAs(ToyStore toyStore, String path) throws IOException {
         StringWriter writer = new StringWriter();

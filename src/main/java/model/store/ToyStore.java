@@ -68,6 +68,14 @@ public class ToyStore {
             }
         }
         Procurement.setCount(procurementMaxId + 1);
+
+        int saleMaxId = 0;
+        for (Sale sale: this.toysSales) {
+            if (sale.getId() > saleMaxId) {
+                saleMaxId = sale.getId();
+            }
+        }
+        Sale.setCount(saleMaxId + 1);
     }
 
     public void addNewProcurement(Procurement procurement) {

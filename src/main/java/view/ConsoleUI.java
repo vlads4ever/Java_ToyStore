@@ -1,7 +1,6 @@
 package view;
 
 import presenter.Presenter;
-
 import java.io.IOException;
 import java.util.Scanner;
 

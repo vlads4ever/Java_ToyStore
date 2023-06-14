@@ -1,8 +1,6 @@
 package view;
 
-
 import presenter.Presenter;
-
 import java.io.IOException;
 
 public interface View {
