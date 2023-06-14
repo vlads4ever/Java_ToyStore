@@ -2,6 +2,7 @@ package model;
 
 import model.saving.Savable;
 import model.store.Procurement;
+import model.store.Sale;
 import model.store.ToyStore;
 import model.toy.*;
 import model.toy.enumerables.AgeRating;
@@ -49,7 +50,7 @@ public class Service {
         }
         Toy toy = new Toy(name, toyType, ageRating, material, length, width, height, manufacturer, cost);
         this.toyStore.addNewToy(toy);
-        return "Новый товар создан.";
+        return "Новый товар создан."  + "\n";
     }
 
     public String showToyInfo(int id) {
@@ -65,9 +66,18 @@ public class Service {
         if (toy != null) {
             Procurement procurement = new Procurement(id, supplier, quantity);
             this.toyStore.addNewProcurement(procurement);
-            return "Поставка проведена.";
+            return "Поставка проведена." + "\n";
         }
-        return "Товар с таким id отсутствует.";
+        return "Товар с таким id отсутствует." + "\n";
+    }
+
+    public String addNewSale(int id, String bayer, int quantity) {
+        Toy toy = (Toy) this.toyStore.getToy(id);
+        if (toy != null) {
+            Sale sale = new Sale(id, bayer, quantity);
+            return this.toyStore.addNewSale(sale) + "\n";
+        }
+        return "Товар с таким id отсутствует." + "\n";
     }
 
     public String showAvailableToys() {
@@ -78,8 +88,8 @@ public class Service {
         return this.toyStore.showAllProcurements();
     }
 
-    public String saleToys(int id, int quantity) {
-        return this.toyStore.saleToys(id, quantity);
+    public String showAllSales() {
+        return this.toyStore.showAllSales();
     }
 
     public String saveStore(String path) throws IOException {

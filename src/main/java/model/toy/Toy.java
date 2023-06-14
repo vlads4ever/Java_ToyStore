@@ -86,10 +86,6 @@ public class Toy implements Toys{
         this.cost = cost;
     }
 
-//    public static int getCount() {
-//        return count;
-//    }
-
     public int getId() {
         return id;
     }
@@ -132,11 +128,35 @@ public class Toy implements Toys{
 
     @Override
     public java.lang.String toString() {
+        String tType = "Кукла";
+        String tRating = "0+";
+        String tMaterial = "Плюш";
+        switch (toyType) {
+            case Doll -> tType = "Кукла";
+            case Puzzle -> tType = "Пазл";
+            case Constructor -> tType = "Конструктор";
+            case ToyTool -> tType = "Игрушечный инструмент";
+            case ToyCar -> tType = "Машинка";
+            case BoardGame -> tType = "Настольная игра";
+        }
+        switch (ageRating) {
+            case ZeroPlus -> tRating = "0+";
+            case ThreePlus -> tRating = "3+";
+            case SevenPlus -> tRating = "7+";
+        }
+        switch (material) {
+            case Plush -> tMaterial = "Плюш";
+            case Plastic -> tMaterial = "Пластик";
+            case Wood -> tMaterial = "Дерево";
+            case PVC -> tMaterial = "ПВХ";
+            case Porcelain -> tMaterial = "Фарфор";
+            case Metal -> tMaterial = "Метал";
+        }
         StringBuilder output = new StringBuilder();
         output.append("Наименование: '" + name + '\'' + '\n');
-        output.append("Тип: " + toyType + '\n');
-        output.append("Возрастной рейтинг: " + ageRating + '\n');
-        output.append("Материал: " + material + '\n');
+        output.append("Тип: " + tType + '\n');
+        output.append("Возрастной рейтинг: " + tRating + '\n');
+        output.append("Материал: " + tMaterial + '\n');
         output.append("Размеры (ДхШхВ): " + length + 'x' + width + 'x' + height + '\n');
         output.append("Производитель: '" + manufacturer + '\'' + '\n');
         output.append(String.format("Стоимость: %.2f", cost) + "руб." + '\n');

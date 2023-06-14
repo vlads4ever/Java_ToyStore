@@ -96,7 +96,7 @@ public class ConsoleUI implements View {
         return number;
     }
 
-    public int inputEnumerables(String message, int value) {
+    public int inputEnumerates(String message, int value) {
         int checkingValue = 0;
         boolean run = true;
         while (run) {
@@ -134,12 +134,12 @@ public class ConsoleUI implements View {
         String toyName = this.inputString("Введите название игрушки: ");
         this.print("Доступные типы игрушек: 1:'Кукла', 2:'Пазл', 3:'Конструктор', 4:'Игрушечный инструмент', " +
                 "5:'Машинка', 6:'Настольная игра'");
-        int toyType = this.inputEnumerables("Укажите тип игрушки (от 0 до 6): ", 6);
+        int toyType = this.inputEnumerates("Укажите тип игрушки (от 0 до 6): ", 6);
         this.print("Доступные варианты возрастного рейтинга: 1:'0+', 2:'3+', 3:'7+'");
-        int ageRating = this.inputEnumerables("Укажите возрастной рейтинг (от 0 до 3): ", 3);
+        int ageRating = this.inputEnumerates("Укажите возрастной рейтинг (от 0 до 3): ", 3);
         this.print("Доступные варианты материала: 1:'Плюш', 2:'Пластик', 3:'Дерево', 4:'ПВХ', 5:'Фарфор', " +
                 "6:'Метал'");
-        int material = this.inputEnumerables("Укажите материал (от 0 до 6): ", 6);
+        int material = this.inputEnumerates("Укажите материал (от 0 до 6): ", 6);
         int length = this.inputInt("Укажите длину в мм.: ");
         int width = this.inputInt("Укажите ширину в мм.: ");
         int height = this.inputInt("Укажите высоту в мм.: ");
@@ -156,6 +156,15 @@ public class ConsoleUI implements View {
         String supplier = this.inputString("Введите поставщика: ");
         int quantity = this.inputInt("Введите количество товара: ");
         this.presenter.addNewProcurement(id, supplier, quantity);
+    }
+
+    @Override
+    public void addNewSale() {
+        this.print("Оформляем новую продажу...");
+        int id = this.inputInt("Введите id игрушки: ");
+        String bayer = this.inputString("Введите покупателя: ");
+        int quantity = this.inputInt("Введите количество товара: ");
+        this.presenter.addNewSale(id, bayer, quantity);
     }
 
     @Override
@@ -185,11 +194,9 @@ public class ConsoleUI implements View {
     }
 
     @Override
-    public void saleToys() {
-        this.print("Продажа игрушки...");
-        int id = this.inputInt("Введите id игрушки: ");
-        int quantity = this.inputInt("Введите количество: ");
-        this.presenter.saleToys(id, quantity);
+    public void showAllSales() {
+        this.print("---Отчет по продажам---");
+        this.presenter.showAllSales();
     }
 
     @Override

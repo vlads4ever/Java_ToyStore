@@ -23,27 +23,39 @@ public class Presenter {
         this.view.print(this.service.addNewToy(name, toyType, ageRating, material,
                 length, width, height, manufacturer, cost));
     }
+
     public void addNewProcurement(int id, String supplier, int quantity) {
         this.view.print(this.service.addNewProcurement(id, supplier, quantity));
     }
+
+    public void addNewSale(int id, String bayer, int quantity) {
+        this.view.print(this.service.addNewSale(id, bayer, quantity));
+    }
+
     public void showToyInfo(int id){
         this.view.print(this.service.showToyInfo(id));
     }
+
     public void showToysList(){
         this.view.print(this.service.showToysList());
     }
+
     public void showAvailableToys(){
         this.view.print(this.service.showAvailableToys());
     }
+
     public void showAllProcurements(){
         this.view.print(this.service.showAllProcurements());
     }
-    public void saleToys(int id, int quantity){
-        this.view.print(this.service.saleToys(id, quantity));
+
+    public void showAllSales(){
+        this.view.print(this.service.showAllSales());
     }
+
     public void saveStore(String path) throws IOException {
         this.view.print(this.service.saveStore(path));
     }
+
     public void loadStore(String path){
         this.view.print(this.service.loadStore(path));
     }

@@ -13,11 +13,12 @@ public interface View {
     void exit();
     void addNewToy();
     void addNewProcurement();
+    void addNewSale();
     void showToyInfo();
     void showToysList();
     void showAvailableToys();
     void showAllProcurements();
-    void saleToys();
+    void showAllSales();
     void saveStore() throws IOException;
     void loadStore();
 }
